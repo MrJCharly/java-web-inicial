@@ -1,6 +1,7 @@
 package tp_01;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Factura {
@@ -72,6 +73,13 @@ public class Factura {
     this.fecha_emision = fecha_emision;
   }
 
+  public int getAnioEmision() {
+	  Calendar calendar = Calendar.getInstance();
+	  calendar.setTime(this.fecha_emision);
+	  
+	  return calendar.get(Calendar.YEAR);
+  }
+  
   public double getImporte() {
     return importe;
   }

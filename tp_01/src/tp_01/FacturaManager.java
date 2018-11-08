@@ -1,5 +1,7 @@
 package tp_01;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -46,6 +48,24 @@ public class FacturaManager {
     
     return result;
   }
+
+  /**
+   * Crear facturas a partir de un conjunto de fechas. 
+   * @param dates
+   * @return
+   * @throws ParseException 
+   */
+  public Factura[] createManyWithDates(String[] dates) throws ParseException {
+	Factura[] facturas = new Factura[dates.length];
+	Date date = null;
+	
+	for (int i = 0; i < dates.length; i++) {
+	  date = new SimpleDateFormat("dd/MM/yyyy").parse(dates[i]);	
+	  facturas[i] = new Factura(i + 1, i +1, "RS", date, 100.5);	
+	}
+	
+	return facturas;
+  }
 }
 
 interface Condition {
@@ -74,6 +94,6 @@ class AnioEmisionCondition implements Condition {
   
   @Override
   public boolean evaluate(Factura factura) {
-    return factura.getFecha_emision().getYear() == this.anioEmision;
+    return factura.getAnioEmision() == this.anioEmision;
   }
 }

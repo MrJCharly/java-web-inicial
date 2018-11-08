@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
 
 import org.junit.Test;
 
@@ -75,15 +75,42 @@ public class UnitTest {
     
     assertEquals("0000000010 - UNJu - 12/05/2018 - 1000.5", factura1.toString());
     assertEquals("0000000450 - RS - 12/05/2018 - 20.45", factura2.toString());
+    assertEquals(2018, factura1.getAnioEmision());
   }
   
   @Test
   public void _03_buscarFacturaPorNro() {
-    assertTrue(true);
+	Factura[] facturas = this.fm.createMany(100, 1);
+	
+	// Buscar factura con nro 88.
+	ArrayList<Factura> result = this.fm.searchNro(facturas, 88);
+    
+	// Debe retornar un único resultado.
+	assertEquals(1, result.size());
+	
+	// Con el nro buscado.
+	assertEquals(88, result.get(0).getNro());
   }
   
   @Test
   public void _04_buscarFacturaPorFecha() {
-    assertTrue(true);
+	String[] dates = {"01/01/2017", "23/02/2017", "15/05/2018"};  
+	Factura[] facturas = null;
+	
+	try {
+	  facturas = this.fm.createManyWithDates(dates);
+	} catch (ParseException e) {
+	  e.printStackTrace();
+	}
+	
+	// Buscar factura con anio 2018.
+	ArrayList<Factura> result = this.fm.searchAnioEmision(facturas, 2018);
+    
+	// Debe retornar un único resultado.
+	assertEquals(1, result.size());
+	
+	// Con el anio buscado.
+	assertEquals(2018, result.get(0).getAnioEmision());
   }
+  
 }
