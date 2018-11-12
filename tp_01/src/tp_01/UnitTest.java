@@ -1,6 +1,5 @@
 package tp_01;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
