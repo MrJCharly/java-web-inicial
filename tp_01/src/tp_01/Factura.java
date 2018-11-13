@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import tp_02.RespInscripto;
-
 public class Factura {
   // TP 01
   protected int id;
