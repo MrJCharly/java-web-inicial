@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import tp_02.FacturaA;
 
 public class FacturaManager {
   
@@ -65,6 +68,33 @@ public class FacturaManager {
 	}
 	
 	return facturas;
+  }
+
+  /**
+   * Buscar facturas por tipo.
+   * @param name Tipo de factura buscado.
+   * @return
+   */
+  public List<Factura> searchFacturas(List<Factura> facturas, String tipo) {
+    ArrayList<Factura> result = new ArrayList<Factura>();
+    
+    for (Factura factura : facturas) {
+      if (factura.getClass().getSimpleName().equals(tipo)) {
+        result.add(factura);
+      }
+    }
+    
+    return result;
+  }
+
+  public double calcularAcumulado(List<Factura> result) {
+    double acumulado = 0;
+    
+    for (Factura factura: result) {
+      acumulado += factura.getImporte();
+    }
+    
+    return acumulado;
   }
 }
 
