@@ -4,8 +4,8 @@ import tp_01.Agente;
 
 public class RespInscripto extends Agente {
 
-  public RespInscripto(String cuit, String razon_social) {
-    super(cuit, razon_social);
+  public RespInscripto(int id, String cuit, String razon_social) {
+    super(id, cuit, razon_social);
   }
   
 }

@@ -3,10 +3,9 @@ package tp_01;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import tp_02.FacturaA;
 
 public class FacturaManager {
   
@@ -29,21 +28,38 @@ public class FacturaManager {
     return facturas;
   }
   
-  public ArrayList<Factura> searchNro(Factura[] facturas, int nro) {
-    return this.search(facturas, new NroCondition(nro));
+  public List<Factura> searchNro(Factura[] facturas, int nro) {
+    return this.search(new ArrayList<Factura>(Arrays.asList(facturas)), new NroCondition(nro));
   }
   
-  public ArrayList<Factura> searchAnioEmision(Factura[] facturas, int anioEmision) {
-    return this.search(facturas, new AnioEmisionCondition(anioEmision));
+  public List<Factura> searchAnioEmision(Factura[] facturas, int anioEmision) {
+    return this.search(new ArrayList<Factura>(Arrays.asList(facturas)), new AnioEmisionCondition(anioEmision));
   }
   
-  public ArrayList<Factura> search (Factura[] facturas, Condition condition) {
+  /**
+   * Buscar facturas por tipo.
+   * @param facturas
+   * @param tipo
+   * @return Facturas del tipo indicado.
+   */
+  public List<Factura> searchTipo(List<Factura> facturas, String tipo) {
+    return this.search(facturas, new TipoCondition(tipo));
+  } 
+  
+  /**
+   * Buscar facturas por id cliente.
+   * @param facturas
+   * @param idCliente
+   * @return facturas pertenecientes al cliente indicado.
+   */
+  public List<Factura> searchByClienteId(List<Factura> facturas, int idCliente) {
+    return this.search(facturas, new ClienteCondition(idCliente));
+  }
+  
+  public List<Factura> search (List<Factura> facturas, Condition condition) {
     ArrayList<Factura> result = new ArrayList<Factura>();
-    Factura factura = null;
     
-    for (int i = 0; i < facturas.length; i++) {
-      factura = facturas[i];
-      
+    for (Factura factura : facturas) {
       if (condition.evaluate(factura)) {
         result.add(factura);
       }
@@ -51,6 +67,8 @@ public class FacturaManager {
     
     return result;
   }
+  
+  
 
   /**
    * Crear facturas a partir de un conjunto de fechas. 
@@ -70,23 +88,6 @@ public class FacturaManager {
 	return facturas;
   }
 
-  /**
-   * Buscar facturas por tipo.
-   * @param name Tipo de factura buscado.
-   * @return
-   */
-  public List<Factura> searchFacturas(List<Factura> facturas, String tipo) {
-    ArrayList<Factura> result = new ArrayList<Factura>();
-    
-    for (Factura factura : facturas) {
-      if (factura.getClass().getSimpleName().equals(tipo)) {
-        result.add(factura);
-      }
-    }
-    
-    return result;
-  }
-
   public double calcularAcumulado(List<Factura> result) {
     double acumulado = 0;
     
@@ -96,12 +97,16 @@ public class FacturaManager {
     
     return acumulado;
   }
+
 }
 
 interface Condition {
   public boolean evaluate(Factura factura);
 }
 
+/**
+ * Condición para determinar si una factura tiene un nro en particular.
+ */
 class NroCondition implements Condition {
   protected int nro;
   
@@ -115,6 +120,9 @@ class NroCondition implements Condition {
   }
 }
 
+/**
+ * COndición para determinar si una factura es de un anio en particular.
+ */
 class AnioEmisionCondition implements Condition {
   protected int anioEmision;
   
@@ -125,5 +133,47 @@ class AnioEmisionCondition implements Condition {
   @Override
   public boolean evaluate(Factura factura) {
     return factura.getAnioEmision() == this.anioEmision;
+  }
+}
+
+/**
+ * Condición para determinar si una factura es de un determinado tipo.
+ */
+class TipoCondition implements Condition {
+  protected String tipo;
+  
+  public TipoCondition(String tipo) {
+    this.tipo = tipo;
+  }
+
+  @Override
+  /**
+   * Evalúa el tipo de una factura.
+   * @param factura a evaular
+   * @return true si la factura es del tipo indicado.
+   */
+  public boolean evaluate(Factura factura) {
+    return factura.getClass().getSimpleName().equals(this.tipo);
+  }
+}
+
+/**
+ * Condición para determinar si una factura es de un determinado tipo.
+ */
+class ClienteCondition implements Condition {
+  protected int idCliente;
+  
+  public ClienteCondition(int idCliente) {
+    this.idCliente = idCliente;
+  }
+
+  @Override
+  /**
+   * Evalúa el cliente de una factura.
+   * @param factura a evaular
+   * @return true si la factura pertenece al cliente indicado.
+   */
+  public boolean evaluate(Factura factura) {
+    return factura.getCliente().getId() == this.idCliente;
   }
 }

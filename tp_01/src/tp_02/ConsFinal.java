@@ -6,8 +6,8 @@ public class ConsFinal extends Agente {
 	protected String apellido;
 	protected String nombre;
 	
-	public ConsFinal(String apellido, String nombre) {
-		super();
+	public ConsFinal(int id, String apellido, String nombre) {
+		super(id, null, null);
 		this.apellido = apellido;
 		this.nombre = nombre;
 	}

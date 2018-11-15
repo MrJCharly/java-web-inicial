@@ -4,8 +4,8 @@ import tp_01.Agente;
 
 public class Monotributista extends Agente {
 
-	public Monotributista(String cuit, String razon_social) {
-		super(cuit, razon_social);
+	public Monotributista(int id, String cuit, String razon_social) {
+		super(id, cuit, razon_social);
 	}
 	
 }

@@ -13,7 +13,7 @@ import tp_01.Agente;
 import tp_01.Factura;
 import tp_01.FacturaManager;
 
-public class UnitTest_TP_02 {
+public class UnitTest {
   protected FacturaManager fm = new FacturaManager();
   protected List<Agente> agentes = new ArrayList<Agente>();
   protected List<Factura> facturas = new ArrayList<Factura>();
@@ -45,14 +45,14 @@ public class UnitTest_TP_02 {
   public void crearAgentesYFacturas() {
     // Crear agentes como emisores y clientes de facturas.
   	
-    this.respInsc1 = new RespInscripto("01-12345678-10", "Musimundo");
-    this.respInsc2 = new RespInscripto("02-12345678-20", "Ribeiro");
-    this.exento1 = new Exento("03-12345678-30", "Union Bus");
-    this.exento2 = new Exento("04-12345678-40", "Santa Ana");
-    this.monotributo1 = new Monotributista("05-12345678-50", "NeoTic Sistemas");
-    this.monotributo2 = new Monotributista("06-12345678-60", "MajoraTic Sistemas");
-    this.consfinal1 = new ConsFinal("Fernández", "Fernando");
-    this.consfinal1 = new ConsFinal("Martínez", "Martín");
+    this.respInsc1 = new RespInscripto(1, "01-12345678-10", "Musimundo");
+    this.respInsc2 = new RespInscripto(2, "02-12345678-20", "Ribeiro");
+    this.exento1 = new Exento(3, "03-12345678-30", "Union Bus");
+    this.exento2 = new Exento(4, "04-12345678-40", "Santa Ana");
+    this.monotributo1 = new Monotributista(5, "05-12345678-50", "NeoTic Sistemas");
+    this.monotributo2 = new Monotributista(6, "06-12345678-60", "MajoraTic Sistemas");
+    this.consfinal1 = new ConsFinal(7, "Fernández", "Fernando");
+    this.consfinal1 = new ConsFinal(8, "Martínez", "Martín");
     
     // Agregar a la colección.
     
@@ -71,28 +71,28 @@ public class UnitTest_TP_02 {
     
     // RespInscripto a RespInscripto.
     this.fact1 = new FacturaA(1, 1, this.respInsc1, this.respInsc2, new Date(), 1000.5);
-    this.fact2 = new FacturaA(2, 2, this.respInsc2, this.respInsc1, new Date(), 1000.5);
+    this.fact2 = new FacturaA(2, 2, this.respInsc2, this.respInsc1, new Date(), 1500.5);
     
     // Factura B.
     
     // RespInscripto a Exento, Montributista y ConsFinal.
-    this.fact3 = new FacturaB(3, 3, this.respInsc1, this.exento1, new Date(), 1000.5);
-    this.fact4 = new FacturaB(4, 4, this.respInsc1, this.monotributo1, new Date(), 1000.5);
-    this.fact5 = new FacturaB(5, 5, this.respInsc1, this.consfinal1, new Date(), 1000.5);
+    this.fact3 = new FacturaB(3, 3, this.respInsc1, this.exento1, new Date(), 2000.5);
+    this.fact4 = new FacturaB(4, 4, this.respInsc1, this.monotributo1, new Date(), 2500.5);
+    this.fact5 = new FacturaB(5, 5, this.respInsc1, this.consfinal1, new Date(), 3000.5);
     
     // Factura C.
     
     // Emisor Monotributista a Agente.
-    this.fact6 = new FacturaC(6, 6, this.monotributo1, this.respInsc1, new Date(), 1000.5);
-    this.fact7 = new FacturaC(7, 7, this.monotributo1, this.exento1, new Date(), 1000.5);
-    this.fact8 = new FacturaC(8, 8, this.monotributo1, this.monotributo2, new Date(), 1000.5);
-    this.fact9 = new FacturaC(9, 9, this.monotributo1, this.consfinal1, new Date(), 1000.5);
+    this.fact6 = new FacturaC(6, 6, this.monotributo1, this.respInsc1, new Date(), 3500.5);
+    this.fact7 = new FacturaC(7, 7, this.monotributo1, this.exento1, new Date(), 4000.5);
+    this.fact8 = new FacturaC(8, 8, this.monotributo1, this.monotributo2, new Date(), 4500.5);
+    this.fact9 = new FacturaC(9, 9, this.monotributo1, this.consfinal1, new Date(), 5000.5);
     
     // Emisor Exento a Agente.
-    this.fact10 = new FacturaC(10, 10, this.exento1, this.respInsc1, new Date(), 1000.5);
-    this.fact11 = new FacturaC(11, 11, this.exento1, this.exento1, new Date(), 1000.5);
-    this.fact12 = new FacturaC(12, 12, this.exento1, this.monotributo2, new Date(), 1000.5);
-    this.fact13 = new FacturaC(13, 13, this.exento1, this.consfinal1, new Date(), 1000.5);
+    this.fact10 = new FacturaC(10, 10, this.exento1, this.respInsc1, new Date(), 5500.5);
+    this.fact11 = new FacturaC(11, 11, this.exento1, this.exento1, new Date(), 6000.5);
+    this.fact12 = new FacturaC(12, 12, this.exento1, this.monotributo2, new Date(), 6500.5);
+    this.fact13 = new FacturaC(13, 13, this.exento1, this.consfinal1, new Date(), 7000.5);
     
     // Agregar facturas a la colección.
     this.facturas .add(fact1);
@@ -120,31 +120,56 @@ public class UnitTest_TP_02 {
   @Test
   public void _02_mostrarFacturasA() {
     List<Factura> result;
+    double acumulado;
     
     // Realizar test sobre FacturaA.
-    result = fm.searchFacturas(this.facturas, FacturaA.class.getSimpleName());
+    result = fm.searchTipo(this.facturas, FacturaA.class.getSimpleName());
     
     // Deben obtenerse 2 resultados, con ids 1 y 2.
     assertEquals(2, result.size());
     assertEquals(1, result.get(0).getId());
     assertEquals(2, result.get(1).getId());
     
-    // Acumulado = 2 * 1000.5
-    assertEquals(2 * 1000.5, fm.calcularAcumulado(result));
+    // Acumulado
+    acumulado = this.fact1.getImporte() + this.fact2.getImporte();  
+    assertEquals(acumulado, fm.calcularAcumulado(result));
     
     // Realizar test sobre FacturaC.
-    result = fm.searchFacturas(this.facturas, FacturaC.class.getSimpleName());
+    result = fm.searchTipo(this.facturas, FacturaC.class.getSimpleName());
     
-    // Deben obtenerse 8 resultados, con ids 6 a 13.
+    // Debe obtenerse 8 resultados, con ids 6 a 13.
     assertEquals(8, result.size());
     
     for (int i = 0; i < 8; i++) {
       assertEquals(i + 6, result.get(i).getId());
     }
     
-    // Acumulado = 8 * 1000.5
-    assertEquals(8 * 1000.5, fm.calcularAcumulado(result));
+    // Acumulado
+    acumulado = 
+      this.fact6.getImporte() + this.fact7.getImporte() + this.fact8.getImporte() + 
+      this.fact9.getImporte() + this.fact10.getImporte() + this.fact11.getImporte() +
+      this.fact12.getImporte() + this.fact13.getImporte();
+    assertEquals(acumulado, fm.calcularAcumulado(result));
   }
   
-  
+  @Test
+  public void _03_buscarFacturasPorCliente() {
+    List<Factura> result;
+    int id = this.respInsc1.getId();
+    
+    // Buscar facturas del cliente respInscripto1.
+    result = this.fm.searchByClienteId(this.facturas, this.respInsc1.getId());
+    
+    // Debe obtenerse 3 resultados.
+    assertEquals(3, result.size());
+    
+    // El id del cliente en cada resultado debe ser id.
+    for (Factura factura : result) {
+      assertEquals(id, factura.getCliente().getId());
+    }
+    
+    // Acumulado
+    double acumulado = this.fact2.getImporte() + this.fact6.getImporte() + this.fact10.getImporte();  
+    assertEquals(acumulado, this.fm.calcularAcumulado(result));
+  }
 }

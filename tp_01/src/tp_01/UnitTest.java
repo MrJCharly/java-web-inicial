@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -82,7 +82,7 @@ public class UnitTest {
 	Factura[] facturas = this.fm.createMany(100, 1);
 	
 	// Buscar factura con nro 88.
-	ArrayList<Factura> result = this.fm.searchNro(facturas, 88);
+	List<Factura> result = this.fm.searchNro(facturas, 88);
     
 	// Debe retornar un único resultado.
 	assertEquals(1, result.size());
@@ -103,7 +103,7 @@ public class UnitTest {
 	}
 	
 	// Buscar factura con anio 2018.
-	ArrayList<Factura> result = this.fm.searchAnioEmision(facturas, 2018);
+	List<Factura> result = this.fm.searchAnioEmision(facturas, 2018);
     
 	// Debe retornar un único resultado.
 	assertEquals(1, result.size());
