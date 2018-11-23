@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import tp_03.Producto;
+
 public class FacturaManager {
   
   /**
@@ -96,6 +98,11 @@ public class FacturaManager {
     }
     
     return acumulado;
+  }
+
+  public List<Producto> getProductos() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
