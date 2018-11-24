@@ -100,9 +100,14 @@ public class FacturaManager {
     return acumulado;
   }
 
-  public List<Producto> getProductos() {
-    // TODO Auto-generated method stub
-    return null;
+  public List<Producto> getProductos(int n) {
+    List<Producto> productos = new ArrayList<Producto>();
+    
+    for (int i = 0; i < n; i++) {
+      productos.add(new Producto(i + 1, "PRD", "Producto", 100.5));
+    }
+    
+    return productos;
   }
 
 }

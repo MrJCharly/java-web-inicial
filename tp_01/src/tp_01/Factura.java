@@ -3,6 +3,9 @@ package tp_01;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import tp_03.Item;
 
 public class Factura {
   // TP 01
@@ -18,6 +21,9 @@ public class Factura {
   protected Agente emisor;
   protected Agente cliente;
   protected double iva = 0;
+  
+  // TP 03
+  protected List<Item> items;
   
   public Factura(int id, int nro, String razon_social, Date fecha_emision, double importe) {
     this.id = id;
@@ -135,7 +141,24 @@ public class Factura {
    * @return
    */
   public double calcularTotal() {
-    this.iva = this.calculaIva() ? this.importe * Factura.ALICUOTA_IVA : 0;
-    return this.importe + this.iva;
+    double total = 0;
+    
+    for (Item item : this.items) {
+      total += item.getSubtotal();
+    }
+    
+    return total;
+  }
+  
+  public double getIva() {
+    return this.calculaIva() ? this.calcularTotal() * Factura.ALICUOTA_IVA : 0;
+  }
+
+  public List<Item> getItems() {
+    return items;
+  }
+
+  public void setItems(List<Item> items) {
+    this.items = items;
   }
 }

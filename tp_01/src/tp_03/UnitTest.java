@@ -1,5 +1,7 @@
 package tp_03;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ class UnitTest {
 
 	@Test
 	void _01_AgregarItems() {
-	  List<Producto> productos = fm.getProductos();
+	  List<Producto> productos = fm.getProductos(3);
 	  List<Item> items = new ArrayList<Item>();
 	  Factura[] facturas = fm.createMany(1, 1);
 	  Factura factura = facturas[0];
@@ -34,7 +36,7 @@ class UnitTest {
     }
 	  
 	  // Asignar items a la factura.
-	  factura.addItems(items);
+	  factura.setItems(items);
 	  
 	  // Chequear total.
 	  assertEquals(total, factura.calcularTotal());
