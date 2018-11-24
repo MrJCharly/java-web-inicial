@@ -2,6 +2,8 @@ package tp_03;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,4 +44,33 @@ class UnitTest {
 	  assertEquals(total, factura.calcularTotal());
 	}
 
+	@Test
+	void _02_exportarFacturaAExcel() {
+	  ExcelManager em = new ExcelManager();
+	  List<Producto> productos = fm.getProductos(3);
+	  String current_path = System.getProperty("user.dir");
+	  String file_path = current_path + "/factura.xlsx";
+	  Factura[] facturas = fm.createMany(1, 1);
+	  Factura factura = facturas[0];
+	  List<Item> items = new ArrayList<Item>();
+	  
+	  // Crear items.
+    items.add(new Item(1, productos.get(0), 1));
+    items.add(new Item(2, productos.get(1), 2));
+    items.add(new Item(3, productos.get(2), 3));
+	  
+    factura.setItems(items);
+    
+	  try {
+      em.export(factura, file_path);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+	  
+	  // Chequear creación del archivo.
+	  File file = new File(file_path);
+	  assertEquals(true, file.exists());
+	  //System.out.println(current_path);
+	}
 }
