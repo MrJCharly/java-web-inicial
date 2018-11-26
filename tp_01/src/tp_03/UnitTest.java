@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import tp_01.Factura;
 import tp_01.FacturaManager;
+import tp_04.FacturaSinItemsException;
 
 class UnitTest {
   protected FacturaManager fm = new FacturaManager();
@@ -64,8 +65,9 @@ class UnitTest {
 	  try {
       em.export(factura, file_path);
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
+    } catch (FacturaSinItemsException fsie) {
+    	fsie.printStackTrace();
     }
 	  
 	  // Chequear creación del archivo.

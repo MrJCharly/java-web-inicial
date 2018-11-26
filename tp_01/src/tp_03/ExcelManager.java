@@ -6,21 +6,25 @@ import java.io.IOException;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import tp_01.Factura;
+import tp_04.FacturaSinItemsException;
 
 public class ExcelManager {
 
-  public void export(Factura factura, String file_path) throws IOException {
+  public void export(Factura factura, String file_path) throws IOException, FacturaSinItemsException {
+  	// Lanzar excepción al encontrar factura sin ítems.
+  	if (factura.getItems() == null || factura.getItems().size() == 0) {
+  		throw new FacturaSinItemsException();
+  	}
+  	
     XSSFWorkbook wb = new XSSFWorkbook();
     XSSFSheet sheet = wb.createSheet("Hoja 1");
     XSSFRow row;
-    Cell cell;
     
     // Nro.
     row = sheet.createRow(0);
@@ -100,3 +104,4 @@ public class ExcelManager {
   }
 
 }
+

@@ -43,6 +43,5 @@ public class Item {
   public double getSubtotal() {
     return this.getPrecioUnitario() * this.cantidad;
   }
-  
-  
+   
 }
