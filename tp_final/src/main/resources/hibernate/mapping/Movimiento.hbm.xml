@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Jan 6, 2019 1:00:54 PM by Hibernate Tools 5.1.10.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="ar.edu.unju.virtual.model.domain.Movimiento" optimistic-lock="version" polymorphism="implicit" schema="public" select-before-update="false" table="movimientos">
+        <id name="id" type="long">
+            <column name="id"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="ar.edu.unju.virtual.model.domain.Cuenta" embed-xml="true" fetch="select" insert="true" name="cuenta" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="id_cuenta_bancaria" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="fecha" optimistic-lock="true" type="date" unique="false">
+            <column length="13" name="fecha" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="debito" optimistic-lock="true" type="java.lang.Float" unique="false">
+            <column name="debito" precision="8" scale="8"/>
+        </property>
+        <property generated="never" lazy="false" name="credito" optimistic-lock="true" type="java.lang.Float" unique="false">
+            <column name="credito" precision="8" scale="8"/>
+        </property>
+        <property generated="never" lazy="false" name="saldo" optimistic-lock="true" type="java.lang.Float" unique="false">
+            <column name="saldo" precision="8" scale="8"/>
+        </property>
+        <property generated="never" lazy="false" name="idCliente" optimistic-lock="true" type="long" unique="false">
+            <column name="id_cliente" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

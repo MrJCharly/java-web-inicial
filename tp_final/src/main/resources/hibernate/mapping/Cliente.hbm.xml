@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Jan 6, 2019 1:00:54 PM by Hibernate Tools 5.1.10.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="ar.edu.unju.virtual.model.domain.Cliente" optimistic-lock="version" polymorphism="implicit" schema="public" select-before-update="false" table="clientes">
+        <id name="id" type="long">
+            <column name="id"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="ar.edu.unju.virtual.model.domain.Cliente" embed-xml="true" fetch="select" insert="true" name="cliente" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="id_cliente"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="dni" optimistic-lock="true" type="long" unique="false">
+            <column name="dni" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="nombreUsuario" optimistic-lock="true" type="string" unique="false">
+            <column name="nombre_usuario"/>
+        </property>
+        <property generated="never" lazy="false" name="clave" optimistic-lock="true" type="string" unique="false">
+            <column name="clave"/>
+        </property>
+        <property generated="never" lazy="false" name="nombre" optimistic-lock="true" type="string" unique="false">
+            <column name="nombre"/>
+        </property>
+        <property generated="never" lazy="false" name="domicilio" optimistic-lock="true" type="string" unique="false">
+            <column name="domicilio"/>
+        </property>
+        <property generated="never" lazy="false" name="email" optimistic-lock="true" type="string" unique="false">
+            <column name="email"/>
+        </property>
+        <property generated="never" lazy="false" name="estado" optimistic-lock="true" type="string" unique="false">
+            <column length="20" name="estado"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="cuentas" optimistic-lock="true" sort="unsorted" table="cuentas_bancarias">
+            <key on-delete="noaction">
+                <column name="id_cliente" not-null="true" unique="true"/>
+            </key>
+            <one-to-many class="ar.edu.unju.virtual.model.domain.Cuenta" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="clientes" optimistic-lock="true" sort="unsorted" table="clientes">
+            <key on-delete="noaction">
+                <column name="id_cliente"/>
+            </key>
+            <one-to-many class="ar.edu.unju.virtual.model.domain.Cliente" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>
