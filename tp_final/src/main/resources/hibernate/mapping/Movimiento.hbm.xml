@@ -4,7 +4,7 @@
     <class dynamic-insert="false" dynamic-update="false" mutable="true" name="ar.edu.unju.virtual.model.domain.Movimiento" optimistic-lock="version" polymorphism="implicit" schema="public" select-before-update="false" table="movimientos">
         <id name="id" type="long">
             <column name="id"/>
-            <generator class="assigned"/>
+            <generator class="increment"/>
         </id>
         <many-to-one class="ar.edu.unju.virtual.model.domain.Cuenta" embed-xml="true" fetch="select" insert="true" name="cuenta" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="id_cuenta_bancaria" not-null="true"/>

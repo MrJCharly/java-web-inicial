@@ -6,13 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.rules.ExternalResource;
 
 import ar.edu.unju.virtual.manager.CuentaManager;
 import ar.edu.unju.virtual.model.dao.impl.ClienteDaoImpl;
 import ar.edu.unju.virtual.model.dao.impl.CuentaDaoImpl;
+import ar.edu.unju.virtual.model.dao.impl.MovimientoDaoImpl;
 import ar.edu.unju.virtual.model.domain.Cliente;
 import ar.edu.unju.virtual.model.domain.Cuenta;
+import ar.edu.unju.virtual.model.domain.Movimiento;
 
 public class UnitTest {
 
@@ -139,6 +140,7 @@ public class UnitTest {
   public void _3_GestionMovimientos() {
     CuentaDaoImpl cuentaDao = new CuentaDaoImpl();
     ClienteDaoImpl clienteDao = new ClienteDaoImpl();
+    MovimientoDaoImpl movDao = new MovimientoDaoImpl();
     CuentaManager cm;
     
     // Crear titular.
@@ -154,17 +156,28 @@ public class UnitTest {
     cuentaDao.create(cuenta);
     
     // Crear manager.
-    cm = new CuentaManager(cuentaDao, cuenta);
+    cm = new CuentaManager(cuentaDao, movDao, cuenta);
     
     // Realizar depósito (titular).
     Float saldo_actual = cuenta.getSaldoActual();
     Float deposito = 10500f;
     
-    cm.realizarDeposito(titular, deposito);
+    Movimiento mov = cm.realizarDeposito(titular, deposito);
     
     // Comprobar saldo.
-    assertEquals(saldo_actual + deposito, cuenta.getSaldoActual(), 0);
+    assertEquals(saldo_actual + deposito, cuenta.getSaldoActual(), 0);            
     
+    // Buscar por id movimiento.    
+    Movimiento result_mov = movDao.findById(mov.getId());    
+    
+    // EL movimiento existe en DB.
+    assertEquals(mov.getId(), result_mov.getId());
+    
+    // Y pertenece al cliente.
+    assertEquals(mov.getIdCliente(), result_mov.getIdCliente());
+        
+    // COn el saldo actual de la cuenta.
+    assertEquals(cuenta.getSaldoActual(), result_mov.getSaldo(), 0);
     
     // Realizar extracción (adherente).
     saldo_actual = cuenta.getSaldoActual();
@@ -179,11 +192,15 @@ public class UnitTest {
     List<Cuenta> results = cuentaDao.findAll(example);
     assertEquals(saldo_actual - extraccion, results.get(0).getSaldoActual(), 0);
     
+    // Eliminar mov.
+    movDao.delete(mov);
+    
     // Eliminar cuenta.
-    cuentaDao.delete(cuenta);
+    cuentaDao.delete(cuenta);    
     
     // Eliminar titular Y adherente.
     clienteDao.delete(adherente);
     clienteDao.delete(titular);
+    
   }
 }
