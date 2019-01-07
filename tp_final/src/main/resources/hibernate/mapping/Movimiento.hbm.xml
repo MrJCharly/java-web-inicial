@@ -8,7 +8,7 @@
         </id>
         <many-to-one class="ar.edu.unju.virtual.model.domain.Cuenta" embed-xml="true" fetch="select" insert="true" name="cuenta" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="id_cuenta_bancaria" not-null="true"/>
-        </many-to-one>
+        </many-to-one>        
         <property generated="never" lazy="false" name="fecha" optimistic-lock="true" type="date" unique="false">
             <column length="13" name="fecha" not-null="true"/>
         </property>

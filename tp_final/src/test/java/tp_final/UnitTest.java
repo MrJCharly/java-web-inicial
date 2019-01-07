@@ -253,6 +253,15 @@ public class UnitTest {
     
     assertEquals(true, controla_importe_superior_al_saldo);
     
+    //
+    // Consultar movimientos por cuenta.
+    //
+    
+    List<Movimiento> movs = cm.getMovimientos();
+    
+    // Se realizaron 2 movimientos.
+    assertEquals(2, movs.size());    
+    
     // Eliminar movimientos.
     movDao.delete(mov);
     movDao.delete(mov_extraccion);
@@ -265,4 +274,5 @@ public class UnitTest {
     clienteDao.delete(titular);
     
   }
+  
 }

@@ -5,8 +5,10 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 
 import ar.edu.unju.virtual.model.dao.MovimientoDao;
+import ar.edu.unju.virtual.model.domain.Cuenta;
 import ar.edu.unju.virtual.model.domain.Movimiento;
 import ar.edu.unju.virtual.model.hibernate.util.BaseHibernate;
 
@@ -48,6 +50,13 @@ public class MovimientoDaoImpl extends BaseHibernate implements MovimientoDao {
     getSession().delete(mov);
     
     tx.commit();
+  }
+
+  public List<Movimiento> findAll(Cuenta cuenta) {
+    Criteria criteria = getSession().createCriteria(Movimiento.class);
+    
+    criteria.add(Restrictions.eq("cuenta.id", cuenta.getId()));
+    return criteria.list();
   }
 
 }

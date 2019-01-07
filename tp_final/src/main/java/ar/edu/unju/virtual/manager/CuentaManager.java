@@ -1,6 +1,7 @@
 package ar.edu.unju.virtual.manager;
 
 import java.util.Date;
+import java.util.List;
 
 import ar.edu.unju.virtual.exceptions.ExtraccionException;
 import ar.edu.unju.virtual.model.dao.impl.CuentaDaoImpl;
@@ -82,5 +83,10 @@ public class CuentaManager {
     movDao.create(mov);
     
     return mov;
+  }
+  
+  // Retornar movimientos de esta cuenta.
+  public List<Movimiento> getMovimientos() {    
+    return movDao.findAll(cuenta);
   }
 }
