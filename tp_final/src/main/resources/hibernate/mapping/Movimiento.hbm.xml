@@ -21,8 +21,8 @@
         <property generated="never" lazy="false" name="saldo" optimistic-lock="true" type="java.lang.Float" unique="false">
             <column name="saldo" precision="8" scale="8"/>
         </property>
-        <property generated="never" lazy="false" name="idCliente" optimistic-lock="true" type="long" unique="false">
+        <many-to-one class="ar.edu.unju.virtual.model.domain.Cliente" embed-xml="true" fetch="select" insert="true" name="cliente" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="id_cliente" not-null="true"/>
-        </property>
+        </many-to-one>        
     </class>
 </hibernate-mapping>

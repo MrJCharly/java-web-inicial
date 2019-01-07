@@ -32,7 +32,7 @@ public class CuentaManager {
     Movimiento mov = new Movimiento();
     
     mov.setCuenta(cuenta);
-    mov.setIdCliente(cliente.getId());
+    mov.setCliente(cliente);
     mov.setCredito(deposito);
     mov.setDebito(0f);
     mov.setFecha(new Date());
@@ -75,7 +75,7 @@ public class CuentaManager {
     Movimiento mov = new Movimiento();
     
     mov.setCuenta(cuenta);
-    mov.setIdCliente(cliente.getId());
+    mov.setCliente(cliente);
     mov.setCredito(0f);
     mov.setDebito(extraccion);
     mov.setFecha(new Date());

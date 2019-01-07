@@ -3,10 +3,13 @@ package ar.edu.unju.virtual.manager;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -24,7 +27,8 @@ public class ExcelManager {
     
     // Título.
     row = sheet.createRow(0);
-    this.createTitleCell(wb, row, 0, "Movimientos de cuenta bancaria");    
+    this.createTitleCell(wb, row, 0, "Movimientos de cuenta bancaria");  
+    sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
     
     // Cuenta.
     row = sheet.createRow(1);
@@ -51,8 +55,8 @@ public class ExcelManager {
       mov = movs.get(i);
       row = sheet.createRow(i + 6);
       
-      row.createCell(0).setCellValue(mov.getFecha());
-      row.createCell(1).setCellValue(mov.getIdCliente());
+      row.createCell(0).setCellValue(getFormattedDate(mov.getFecha()));
+      row.createCell(1).setCellValue(mov.getCliente().getNombre());
       this.createCurrencyCell(wb, row, 2, mov.getDebito());
       this.createCurrencyCell(wb, row, 3, mov.getCredito());
       this.createCurrencyCell(wb, row, 4, mov.getSaldo());
@@ -68,6 +72,11 @@ public class ExcelManager {
     FileOutputStream outputStream = new FileOutputStream(file);
     wb.write(outputStream);
     wb.close();
+  }
+
+  private String getFormattedDate(Date fecha) {
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");    
+    return formatter.format(fecha);
   }
 
   // Crear celda con formato de título.

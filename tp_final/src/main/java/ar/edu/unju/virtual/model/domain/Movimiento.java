@@ -13,27 +13,27 @@ public class Movimiento implements java.io.Serializable {
   private Date fecha;
   private Float debito;
   private Float credito;
-  private Float saldo;
-  private long idCliente;
+  private Float saldo;  
+  private Cliente cliente;
 
   public Movimiento() {
   }
 
-  public Movimiento(long id, Cuenta cuenta, Date fecha, long idCliente) {
+  public Movimiento(long id, Cuenta cuenta, Date fecha, Cliente cliente) {
     this.id = id;
     this.cuenta = cuenta;
     this.fecha = fecha;
-    this.idCliente = idCliente;
+    this.cliente = cliente;
   }
 
-  public Movimiento(long id, Cuenta cuenta, Date fecha, Float debito, Float credito, Float saldo, long idCliente) {
+  public Movimiento(long id, Cuenta cuenta, Date fecha, Float debito, Float credito, Float saldo, Cliente cliente) {
     this.id = id;
     this.cuenta = cuenta;
     this.fecha = fecha;
     this.debito = debito;
     this.credito = credito;
     this.saldo = saldo;
-    this.idCliente = idCliente;
+    this.cliente = cliente;
   }
 
   public long getId() {
@@ -82,14 +82,14 @@ public class Movimiento implements java.io.Serializable {
 
   public void setSaldo(Float saldo) {
     this.saldo = saldo;
+  }  
+
+  public Cliente getCliente() {
+    return cliente;
   }
 
-  public long getIdCliente() {
-    return this.idCliente;
+  public void setCliente(Cliente cliente) {
+    this.cliente = cliente;
   }
-
-  public void setIdCliente(long idCliente) {
-    this.idCliente = idCliente;
-  }
-
+  
 }

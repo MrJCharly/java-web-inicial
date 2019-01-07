@@ -176,7 +176,7 @@ public class UnitTest {
     assertEquals(mov.getId(), result_mov.getId());
     
     // Y pertenece al cliente.
-    assertEquals(mov.getIdCliente(), result_mov.getIdCliente());
+    assertEquals(mov.getCliente().getId(), result_mov.getCliente().getId());
         
     // COn el saldo actual de la cuenta.
     assertEquals(cuenta.getSaldoActual(), result_mov.getSaldo(), 0);
@@ -206,7 +206,7 @@ public class UnitTest {
     assertEquals(mov_extraccion.getId(), result_mov_extraccion.getId());
     
     // Y pertenece al cliente.
-    assertEquals(mov_extraccion.getIdCliente(), result_mov_extraccion.getIdCliente());
+    assertEquals(mov_extraccion.getCliente().getId(), result_mov_extraccion.getCliente().getId());
         
     // COn el saldo actual de la cuenta.
     assertEquals(cuenta.getSaldoActual(), result_mov_extraccion.getSaldo(), 0);
