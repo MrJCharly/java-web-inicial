@@ -1,5 +1,6 @@
 package ar.edu.unju.virtual.manager;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -88,5 +89,10 @@ public class CuentaManager {
   // Retornar movimientos de esta cuenta.
   public List<Movimiento> getMovimientos() {    
     return movDao.findAll(cuenta);
+  }
+
+  public void toExcel(Cuenta cuenta, List<Movimiento> movs, String file_path) throws Exception {
+    ExcelManager em = new ExcelManager();
+    em.export(cuenta, movs, file_path);
   }
 }

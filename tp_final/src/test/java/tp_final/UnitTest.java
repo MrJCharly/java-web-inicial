@@ -2,6 +2,7 @@ package tp_final;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -261,6 +262,23 @@ public class UnitTest {
     
     // Se realizaron 2 movimientos.
     assertEquals(2, movs.size());    
+    
+    //
+    // Exportar movimientos a Excel.
+    //
+    
+    String current_path = System.getProperty("user.dir");
+    String file_path = current_path + "/movimientos.xlsx";
+    
+    try {
+      cm.toExcel(cuenta, movs, file_path);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+    // Chequear creación del archivo excel.
+    File file = new File(file_path);
+    assertEquals(true, file.exists());
     
     // Eliminar movimientos.
     movDao.delete(mov);
