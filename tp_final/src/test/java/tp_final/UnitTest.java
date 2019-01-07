@@ -198,6 +198,18 @@ public class UnitTest {
     List<Cuenta> results = cuentaDao.findAll(example);
     assertEquals(saldo_actual - extraccion, results.get(0).getSaldoActual(), 0);
     
+    // Comprobar movimiento.
+    Movimiento result_mov_extraccion = movDao.findById(mov_extraccion.getId());    
+    
+    // EL movimiento existe en DB.
+    assertEquals(mov_extraccion.getId(), result_mov_extraccion.getId());
+    
+    // Y pertenece al cliente.
+    assertEquals(mov_extraccion.getIdCliente(), result_mov_extraccion.getIdCliente());
+        
+    // COn el saldo actual de la cuenta.
+    assertEquals(cuenta.getSaldoActual(), result_mov_extraccion.getSaldo(), 0);
+    
     // Intentar extraer importe 0 o negativo.
     boolean controla_importe_cero = false;
     
