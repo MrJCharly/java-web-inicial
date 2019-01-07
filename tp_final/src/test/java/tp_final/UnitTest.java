@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.rules.ExternalResource;
 
 import ar.edu.unju.virtual.manager.CuentaManager;
 import ar.edu.unju.virtual.model.dao.impl.ClienteDaoImpl;
@@ -163,6 +164,20 @@ public class UnitTest {
     
     // Comprobar saldo.
     assertEquals(saldo_actual + deposito, cuenta.getSaldoActual(), 0);
+    
+    
+    // Realizar extracción (adherente).
+    saldo_actual = cuenta.getSaldoActual();
+    Float extraccion = 2500f;
+    
+    cm.realizarExtraccion(adherente, extraccion);
+    
+    // Comprobar saldo.
+    Cuenta example = new Cuenta();
+    
+    example.setNumero(cuenta.getNumero());
+    List<Cuenta> results = cuentaDao.findAll(example);
+    assertEquals(saldo_actual - extraccion, results.get(0).getSaldoActual(), 0);
     
     // Eliminar cuenta.
     cuentaDao.delete(cuenta);

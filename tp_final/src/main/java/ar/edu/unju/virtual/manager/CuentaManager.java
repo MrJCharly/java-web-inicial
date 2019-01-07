@@ -17,4 +17,9 @@ public class CuentaManager {
     cuenta.realizarDeposito(deposito);
     cuentaDao.update(cuenta);
   }
+
+  public void realizarExtraccion(Cliente cliente, Float extraccion) {
+    cuenta.realizarExtraccion(extraccion);
+    cuentaDao.update(cuenta);
+  }
 }

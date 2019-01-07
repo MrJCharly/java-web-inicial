@@ -118,4 +118,8 @@ public class Cuenta implements java.io.Serializable {
     this.saldoActual += deposito;
   }
 
+  public void realizarExtraccion(Float extraccion) {
+    this.saldoActual -= extraccion;    
+  }
+
 }
