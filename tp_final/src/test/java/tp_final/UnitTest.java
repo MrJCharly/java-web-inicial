@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import ar.edu.unju.virtual.manager.CuentaManager;
 import ar.edu.unju.virtual.model.dao.impl.ClienteDaoImpl;
 import ar.edu.unju.virtual.model.dao.impl.CuentaDaoImpl;
 import ar.edu.unju.virtual.model.domain.Cliente;
@@ -91,14 +92,13 @@ public class UnitTest {
   public void _2_GestionCuentasBancarias() {
     CuentaDaoImpl cuentaDao = new CuentaDaoImpl();
     ClienteDaoImpl clienteDao = new ClienteDaoImpl();
-    Cliente titular = getNewCliente();
-    Date fecha = new Date();
+    Cliente titular = getNewCliente();    
     
     // Crear titular.
     clienteDao.create(titular);
     
     // Crear cuenta.
-    Cuenta cuenta = new Cuenta(titular, "1111111111", fecha, 10000f, 3000l, Cuenta.HABILITADO);
+    Cuenta cuenta = getNewCuenta(titular);
     cuentaDao.create(cuenta);
     
     // Buscar cuenta por nro.
@@ -128,6 +128,47 @@ public class UnitTest {
     // Eliminar titular.
     clienteDao.delete(titular);
   }
+
+  private Cuenta getNewCuenta(Cliente titular) {
+    Date fecha = new Date();
+    return new Cuenta(titular, "1111111111", fecha, 10000f, 3000l, Cuenta.HABILITADO);
+  }
   
-  
+  @Test
+  public void _3_GestionMovimientos() {
+    CuentaDaoImpl cuentaDao = new CuentaDaoImpl();
+    ClienteDaoImpl clienteDao = new ClienteDaoImpl();
+    CuentaManager cm;
+    
+    // Crear titular.
+    Cliente titular = getNewCliente();
+    clienteDao.create(titular);
+    
+    // Crear adherente.
+    Cliente adherente = getNewAdherente(titular);
+    clienteDao.create(adherente);
+    
+    // Crear cuenta.
+    Cuenta cuenta = getNewCuenta(titular);
+    cuentaDao.create(cuenta);
+    
+    // Crear manager.
+    cm = new CuentaManager(cuentaDao, cuenta);
+    
+    // Realizar depósito (titular).
+    Float saldo_actual = cuenta.getSaldoActual();
+    Float deposito = 10500f;
+    
+    cm.realizarDeposito(titular, deposito);
+    
+    // Comprobar saldo.
+    assertEquals(saldo_actual + deposito, cuenta.getSaldoActual(), 0);
+    
+    // Eliminar cuenta.
+    cuentaDao.delete(cuenta);
+    
+    // Eliminar titular Y adherente.
+    clienteDao.delete(adherente);
+    clienteDao.delete(titular);
+  }
 }

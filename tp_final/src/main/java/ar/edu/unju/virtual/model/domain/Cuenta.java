@@ -114,4 +114,8 @@ public class Cuenta implements java.io.Serializable {
     this.movimientos = movimientos;
   }
 
+  public void realizarDeposito(Float deposito) {    
+    this.saldoActual += deposito;
+  }
+
 }
