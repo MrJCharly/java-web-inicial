@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import ar.edu.unju.virtual.exceptions.ExtraccionException;
 import ar.edu.unju.virtual.manager.CuentaManager;
 import ar.edu.unju.virtual.model.dao.impl.ClienteDaoImpl;
 import ar.edu.unju.virtual.model.dao.impl.CuentaDaoImpl;
@@ -182,8 +183,13 @@ public class UnitTest {
     // Realizar extracción (adherente).
     saldo_actual = cuenta.getSaldoActual();
     Float extraccion = 2500f;
+    Movimiento mov_extraccion = null;
     
-    cm.realizarExtraccion(adherente, extraccion);
+    try {
+      mov_extraccion = cm.realizarExtraccion(adherente, extraccion);
+    } catch (ExtraccionException e) {
+      e.printStackTrace();
+    }
     
     // Comprobar saldo.
     Cuenta example = new Cuenta();
@@ -192,8 +198,52 @@ public class UnitTest {
     List<Cuenta> results = cuentaDao.findAll(example);
     assertEquals(saldo_actual - extraccion, results.get(0).getSaldoActual(), 0);
     
-    // Eliminar mov.
+    // Intentar extraer importe 0 o negativo.
+    boolean controla_importe_cero = false;
+    
+    try {
+      cm.realizarExtraccion(adherente, 0f);
+    } catch (ExtraccionException e) {
+      controla_importe_cero = true;      
+    }
+    
+    assertEquals(true, controla_importe_cero);
+    
+    boolean controla_importe_negativo = false;
+    
+    try {
+      cm.realizarExtraccion(adherente, 0f);
+    } catch (ExtraccionException e) {
+      controla_importe_negativo = true;
+    }
+    
+    assertEquals(true, controla_importe_negativo);
+    
+    // Intentar extraer importe superior al permitido.
+    boolean controla_importe_superior_al_permitido = false;
+    
+    try {
+      cm.realizarExtraccion(adherente, cuenta.getLimiteExtraccion() + 1f);
+    } catch (ExtraccionException e) {
+      controla_importe_superior_al_permitido = true;
+    }
+    
+    assertEquals(true, controla_importe_superior_al_permitido);
+    
+    // Intentar extraer un importe superior al existente.
+    boolean controla_importe_superior_al_saldo = false;
+    
+    try {
+      cm.realizarExtraccion(adherente, cuenta.getSaldoActual() + 1f);
+    } catch (ExtraccionException e) {
+      controla_importe_superior_al_saldo = true;
+    }
+    
+    assertEquals(true, controla_importe_superior_al_saldo);
+    
+    // Eliminar movimientos.
     movDao.delete(mov);
+    movDao.delete(mov_extraccion);
     
     // Eliminar cuenta.
     cuentaDao.delete(cuenta);    

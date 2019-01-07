@@ -2,6 +2,7 @@ package ar.edu.unju.virtual.manager;
 
 import java.util.Date;
 
+import ar.edu.unju.virtual.exceptions.ExtraccionException;
 import ar.edu.unju.virtual.model.dao.impl.CuentaDaoImpl;
 import ar.edu.unju.virtual.model.dao.impl.MovimientoDaoImpl;
 import ar.edu.unju.virtual.model.domain.Cliente;
@@ -40,8 +41,46 @@ public class CuentaManager {
     return mov;
   }
 
-  public void realizarExtraccion(Cliente cliente, Float extraccion) {
+  // Realizar extracciones y generar movimientos, verificando condiciones.
+  public Movimiento realizarExtraccion(Cliente cliente, Float extraccion) throws ExtraccionException {
+    // Verificar condiciones de extracción.
+    
+    // Importe > 0.
+    if (extraccion <= 0) {
+      throw new ExtraccionException("Importe debe ser positivo");
+    }
+    
+    // Importe < limite de extracción.
+    if (extraccion > cuenta.getLimiteExtraccion()) {
+      throw new ExtraccionException("Importe debe ser menor al límite: " + cuenta.getLimiteExtraccion());
+    }
+    
+    // Importe > saldo actual.
+    if (extraccion > cuenta.getSaldoActual()) {
+      throw new ExtraccionException("Importe debe ser menor al saldo actual: " + cuenta.getSaldoActual());
+    }
+    
+    // Cuenta inhabilitada.
+    if (cuenta.getEstado().equals(Cuenta.INHABILITADO)) {
+      throw new ExtraccionException("La cuenta debe estar habilitada");
+    }
+    
+    // Realizar extracción.
     cuenta.realizarExtraccion(extraccion);
     cuentaDao.update(cuenta);
+    
+    // Generar movimiento.
+    Movimiento mov = new Movimiento();
+    
+    mov.setCuenta(cuenta);
+    mov.setIdCliente(cliente.getId());
+    mov.setCredito(0f);
+    mov.setDebito(extraccion);
+    mov.setFecha(new Date());
+    mov.setSaldo(cuenta.getSaldoActual());
+    
+    movDao.create(mov);
+    
+    return mov;
   }
 }
